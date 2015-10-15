@@ -11,8 +11,8 @@ var nodes = colony.nodes
   , scale = colony.scale
   , focus
 
-var width = 600
-  , height = 400
+var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0) / 2
+  , height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
   , link
   , node
   , text
@@ -91,6 +91,10 @@ var vis = d3.select(root)
     .append('svg')
     .attr('width', width)
     .attr('height', height)
+    .call(d3.behavior.zoom().on("zoom", function () {
+        vis.attr("transform", "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")")
+    }))
+    .append("g")
 
 force.nodes(nodes)
      .links(links)
